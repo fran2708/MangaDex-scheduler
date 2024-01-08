@@ -1,0 +1,27 @@
+{
+  "name": "mangadex-scheduler",
+  "version": "1.0.0",
+  "description": "Scheduler to check MangaDex updates",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fran2708/MangaDex-scheduler.git"
+  },
+  "keywords": [
+    "node",
+    "scheduler"
+  ],
+  "author": "fran2708",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fran2708/MangaDex-scheduler/issues"
+  },
+  "homepage": "https://github.com/fran2708/MangaDex-scheduler#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-cron": "^3.0.3"
+  }
+}
