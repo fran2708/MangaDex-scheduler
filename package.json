@@ -2,7 +2,7 @@
   "name": "mangadex-scheduler",
   "version": "1.0.0",
   "description": "Scheduler to check MangaDex updates",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/fran2708/MangaDex-scheduler#readme",
   "dependencies": {
+    "axios": "^1.6.5",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "node-cron": "^3.0.3"
   }
