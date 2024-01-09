@@ -19,7 +19,6 @@ let access_token
 let refresh_token
 
 authentication = async (creds) =>  {
-
     const resp = await axios({
         method: 'POST',
         url: `https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/token`,
@@ -39,11 +38,20 @@ getAllCFollowedChapters = async (sessionToken) => {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionToken}`
+        },
+        params: {
+            translatedLanguage: ['en'],
+            updatedAtSince: '2024-01-08T20:00:00',
+            order: {
+                updatedAt: 'desc'
+            }
         }
     })
     .then(function (response) {
-        j_resp = JSON.stringify(response.data)
-        console.log(j_resp.attributes.title)
+        const dataArray = response.data.data
+        let dataItems = dataArray.map(chapter => {
+            return (console.log('New chapter: ' + chapter.attributes.chapter))
+        })
     })
 }
 
