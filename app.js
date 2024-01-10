@@ -31,7 +31,8 @@ authentication = async (creds) =>  {
 }
 
 cron.schedule('*/5 * * * * *', () => {
-    commands.getAllFollowedChapters(access_token)
+    // commands.getAllFollowedChapters(access_token)
+    commands.getReadingMangaList(access_token)
 })
 
 cron.schedule('* */15 * * * *', () => {

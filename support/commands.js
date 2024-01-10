@@ -1,8 +1,42 @@
 const axios = require('axios')
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+const defaultUrl = 'https://api.mangadex.org'
+
+refreshAccessToken = async (refresh_token, client_id, client_secret) => {
+    const creds = {
+        grant_type: 'refresh_token',
+        refresh_token: refresh_token,
+        client_id: client_id,
+        client_secret: client_secret
+    }
+
+    axios.post('https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/token/auth/refresh', {
+        params: {
+            data: creds
+        }
+    })
+    .then(function (response) {
+        return response.data.access_token
+    })
+}
+
+getReadingMangaList = async (sessionToken) => {
+    axios.get(defaultUrl + '/manga/status', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionToken}`
+        },
+        params: {
+            'status': 'reading'
+        }
+    })
+    .then(function (response) {
+        console.log(Object.keys(response.data.statuses))
+    })
+}
 
 getAllFollowedChapters = async (sessionToken) => {
-    axios.get('https://api.mangadex.org/user/follows/manga/feed', {
+    axios.get(defaultUrl + '/user/follows/manga/feed', {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionToken}`
@@ -23,22 +57,5 @@ getAllFollowedChapters = async (sessionToken) => {
     })
 }
 
-refreshAccessToken = async (refresh_token, client_id, client_secret) => {
-    const creds = {
-        grant_type: 'refresh_token',
-        refresh_token: refresh_token,
-        client_id: client_id,
-        client_secret: client_secret
-    }
 
-    axios.post('https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/token/auth/refresh', {
-        params: {
-            data: creds
-        }
-    })
-    .then(function (response) {
-        return response.data.access_token
-    })
-}
-
-module.exports = { getAllFollowedChapters, refreshAccessToken }
+module.exports = { refreshAccessToken, getReadingMangaList, getAllFollowedChapters }
