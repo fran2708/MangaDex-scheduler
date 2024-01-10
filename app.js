@@ -3,6 +3,7 @@ const express = require('express')
 const axios = require('axios')
 const dotenv = require('dotenv')
 dotenv.config()
+const commands = require('./support/commands.js')
 
 const app = express()
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -29,38 +30,12 @@ authentication = async (creds) =>  {
     refresh_token = resp.data.refresh_token
 }
 
-refreshAccessToken = async (refresh_token) => {
-
-}
-
-getAllCFollowedChapters = async (sessionToken) => {
-    axios.get('https://api.mangadex.org/user/follows/manga/feed', {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${sessionToken}`
-        },
-        params: {
-            translatedLanguage: ['en'],
-            updatedAtSince: '2024-01-08T20:00:00',
-            order: {
-                updatedAt: 'desc'
-            }
-        }
-    })
-    .then(function (response) {
-        const dataArray = response.data.data
-        let dataItems = dataArray.map(chapter => {
-            return (console.log('New chapter: ' + chapter.attributes.chapter))
-        })
-    })
-}
-
 cron.schedule('*/5 * * * * *', () => {
-    getAllCFollowedChapters(access_token)
+    commands.getAllFollowedChapters(access_token)
 })
 
 cron.schedule('* */15 * * * *', () => {
-    refreshAccessToken(refresh_token)
+    access_token = commands.refreshAccessToken(refresh_token, credentials.client_id, credentials.client_secret)
 })
 
 
